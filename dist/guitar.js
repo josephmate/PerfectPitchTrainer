@@ -30,7 +30,7 @@ var GuitarNote = /** @class */ (function () {
 }());
 function increasePitch(guitarNote) {
     if (guitarNote.absoluteNote.note == Note.B) {
-        return new GuitarNote(guitarNote.guitarString, guitarNote.fretNumber + 1, new AbsoluteNote(Note.A, guitarNote.absoluteNote.octave + 1));
+        return new GuitarNote(guitarNote.guitarString, guitarNote.fretNumber + 1, new AbsoluteNote(Note.C, guitarNote.absoluteNote.octave + 1));
     }
     return new GuitarNote(guitarNote.guitarString, guitarNote.fretNumber + 1, 
     // https://stackoverflow.com/questions/39427542/how-do-i-access-typescript-enum-by-ordinal

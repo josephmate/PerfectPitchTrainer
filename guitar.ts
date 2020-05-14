@@ -26,7 +26,7 @@ function increasePitch(guitarNote: GuitarNote): GuitarNote {
         return new GuitarNote(
             guitarNote.guitarString,
             guitarNote.fretNumber + 1, 
-            new AbsoluteNote(Note.A,
+            new AbsoluteNote(Note.C,
                 guitarNote.absoluteNote.octave + 1));
     }
     return new GuitarNote(

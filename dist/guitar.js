@@ -72,6 +72,9 @@ function displayName(absoluteNote) {
     return noteToStringMap[absoluteNote.note] + " " + absoluteNote.octave;
 }
 var guitar = document.getElementById("guitar");
+function playGuitarNote(guitarString, fretNumber) {
+    new Audio('notes/' + guitarString + '-Fret' + fretNumber + '.mp3').play();
+}
 var _loop_1 = function (guitarString) {
     var guitarStringRow = document.createElement("tr");
     // create an empty cell
@@ -93,7 +96,4 @@ var _loop_1 = function (guitarString) {
 for (var _i = 0, _a = ['E1', 'B', 'G', 'D', 'A', "E2"]; _i < _a.length; _i++) {
     var guitarString = _a[_i];
     _loop_1(guitarString);
-}
-function playGuitarNote(guitarString, fretNumber) {
-    console.log(guitarString + "-" + fretNumber);
 }

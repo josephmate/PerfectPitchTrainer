@@ -78,6 +78,10 @@ function displayName(absoluteNote: AbsoluteNote): string {
 
 let guitar = document.getElementById("guitar");
 
+function playGuitarNote(guitarString: String, fretNumber: number) {
+    new Audio('notes/' + guitarString + '-Fret' + fretNumber + '.mp3').play()
+}
+
 for (let guitarString of ['E1', 'B', 'G', 'D', 'A', "E2"]) {
     let guitarStringRow = document.createElement("tr");
     // create an empty cell
@@ -91,8 +95,4 @@ for (let guitarString of ['E1', 'B', 'G', 'D', 'A', "E2"]) {
         guitarStringRow.appendChild(noteCell);
     }
     guitar.appendChild(guitarStringRow);
-}
-
-function playGuitarNote(guitarString: String, fretNumber: number) {
-    console.log(guitarString + "-" + fretNumber);
 }

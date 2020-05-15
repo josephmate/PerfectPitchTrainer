@@ -81,8 +81,14 @@ var _loop_1 = function (guitarString) {
     guitarStringRow.appendChild(document.createElement("td"));
     var _loop_2 = function (guitarNote) {
         var noteCell = document.createElement("td");
-        var notePlayButton = document.createElement("button");
-        notePlayButton.addEventListener("click", function (e) { return playGuitarNote(guitarString, guitarNote.fretNumber); });
+        var notePlayButton = void 0;
+        if (guitarNote.fretNumber <= 5) {
+            notePlayButton = document.createElement("button");
+            notePlayButton.addEventListener("click", function (e) { return playGuitarNote(guitarString, guitarNote.fretNumber); });
+        }
+        else {
+            notePlayButton = document.createElement("div");
+        }
         notePlayButton.innerHTML = displayName(guitarNote.absoluteNote);
         noteCell.appendChild(notePlayButton);
         guitarStringRow.appendChild(noteCell);

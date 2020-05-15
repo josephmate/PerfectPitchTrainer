@@ -88,8 +88,13 @@ for (let guitarString of ['E1', 'B', 'G', 'D', 'A', "E2"]) {
     guitarStringRow.appendChild(document.createElement("td"));
     for(let guitarNote of guitarNotes.filter(guitarNote => guitarNote.guitarString == guitarString)) {
         let noteCell = document.createElement("td");
-        let notePlayButton = document.createElement("button");
-        notePlayButton.addEventListener("click", (e:Event) => playGuitarNote(guitarString, guitarNote.fretNumber));
+        let notePlayButton;
+        if (guitarNote.fretNumber <= 5) {
+            notePlayButton = document.createElement("button");
+            notePlayButton.addEventListener("click", (e:Event) => playGuitarNote(guitarString, guitarNote.fretNumber));
+        } else {
+            notePlayButton = document.createElement("div");
+        }
         notePlayButton.innerHTML = displayName(guitarNote.absoluteNote);
         noteCell.appendChild(notePlayButton);
         guitarStringRow.appendChild(noteCell);

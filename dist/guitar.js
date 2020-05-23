@@ -30,7 +30,7 @@ var guitarNotes = []
     .concat(addNotesFromFret("E2", NOTES.E, 2));
 var guitar = document.getElementById("guitar");
 function playGuitarNote(guitarString, fretNumber) {
-    new Audio('notes/' + guitarString + '-Fret' + fretNumber + '.mp3').play();
+    new Audio('notes/guitar/' + guitarString + '-Fret' + fretNumber + '.mp3').play();
 }
 var _loop_1 = function (guitarString) {
     var guitarStringRow = document.createElement("tr");

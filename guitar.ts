@@ -33,7 +33,7 @@ let guitarNotes = []
 let guitar = document.getElementById("guitar");
 
 function playGuitarNote(guitarString: String, fretNumber: number) {
-    new Audio('notes/' + guitarString + '-Fret' + fretNumber + '.mp3').play()
+    new Audio('notes/guitar/' + guitarString + '-Fret' + fretNumber + '.mp3').play()
 }
 
 for (let guitarString of ['E1', 'B', 'G', 'D', 'A', "E2"]) {

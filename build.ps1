@@ -1,1 +1,1 @@
-tsc --outFile dist\guitar.js .\guitar.ts
+tsc --outDir dist\ .\notes.ts .\guitar.ts .\piano.ts

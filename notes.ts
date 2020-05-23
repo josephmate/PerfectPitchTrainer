@@ -35,6 +35,11 @@ let NOTES = {
 
 class AbsoluteNote {
     constructor(public note: Note, public octave: number) { }
+
+    equals(other: AbsoluteNote): boolean {
+        return this.note.rank == other.note.rank
+            && this.octave == other.octave
+    }
 }
 
 function increasePitch(absoluteNote: AbsoluteNote): AbsoluteNote {

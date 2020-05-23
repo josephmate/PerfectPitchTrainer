@@ -39,6 +39,10 @@ var AbsoluteNote = /** @class */ (function () {
         this.note = note;
         this.octave = octave;
     }
+    AbsoluteNote.prototype.equals = function (other) {
+        return this.note.rank == other.note.rank
+            && this.octave == other.octave;
+    };
     return AbsoluteNote;
 }());
 function increasePitch(absoluteNote) {

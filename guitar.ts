@@ -42,6 +42,7 @@ for (let guitarString of ['E1', 'B', 'G', 'D', 'A', "E2"]) {
     guitarStringRow.appendChild(document.createElement("td"));
     for(let guitarNote of guitarNotes.filter(guitarNote => guitarNote.guitarString == guitarString)) {
         let noteCell = document.createElement("td");
+        noteCell.setAttribute("style", "border: 1px solid black;");
         let notePlayButton;
         if (guitarNote.fretNumber <= 5) {
             notePlayButton = document.createElement("button");

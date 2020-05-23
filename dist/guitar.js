@@ -38,6 +38,7 @@ var _loop_1 = function (guitarString) {
     guitarStringRow.appendChild(document.createElement("td"));
     var _loop_2 = function (guitarNote) {
         var noteCell = document.createElement("td");
+        noteCell.setAttribute("style", "border: 1px solid black;");
         var notePlayButton = void 0;
         if (guitarNote.fretNumber <= 5) {
             notePlayButton = document.createElement("button");

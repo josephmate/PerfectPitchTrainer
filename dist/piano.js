@@ -10,7 +10,7 @@ function generatePianoNotes(startNote, endNote) {
     }
     return result;
 }
-var pianoNotes = generatePianoNotes(new AbsoluteNote(NOTES.A, 0), new AbsoluteNote(NOTES.C, 8));
+var pianoNotes = generatePianoNotes(new AbsoluteNote(NOTES.E, 2), new AbsoluteNote(NOTES.C, 4));
 function isNextNoteSharp(notes, index) {
     return false;
 }

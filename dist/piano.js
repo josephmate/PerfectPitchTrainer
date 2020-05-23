@@ -14,6 +14,9 @@ var pianoNotes = generatePianoNotes(new AbsoluteNote(NOTES.E, 2), new AbsoluteNo
 function isNextNoteSharp(notes, index) {
     return false;
 }
+function playPianoNote(absoluteNote) {
+    new Audio('notes/piano/' + encodeURIComponent(absoluteNote.note.name) + absoluteNote.octave + '.mp3').play();
+}
 var piano = document.getElementById("piano");
 // Assume we always start from a white key.
 if (pianoNotes[0].note.isSharp) {
@@ -71,6 +74,7 @@ pianoNotes
         cell.setAttribute("colspan", "2");
         notePlayButton.setAttribute("style", "border: 1px solid black; color:white; background-color:black");
         notePlayButton.innerHTML = displayName(pianoNote);
+        cell.addEventListener("click", function (e) { return playPianoNote(pianoNote); });
         cell.appendChild(notePlayButton);
     }
     blackKeys.append(cell);
@@ -86,6 +90,7 @@ pianoNotes
     noteCell.appendChild(notePlayButton);
     noteCell.setAttribute("colspan", "3");
     noteCell.setAttribute("style", "border: 1px solid black;");
+    noteCell.addEventListener("click", function (e) { return playPianoNote(pianoNote); });
     whiteKeys.appendChild(noteCell);
 });
 piano.appendChild(whiteKeys);

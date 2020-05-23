@@ -1,6 +1,6 @@
 
 class Note {
-    constructor(public name: String, public isSharp: boolean, public rank: number) { }
+    constructor(public name: string, public isSharp: boolean, public rank: number) { }
 }
 
 let notesByRank = [

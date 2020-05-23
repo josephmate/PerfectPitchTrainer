@@ -21,6 +21,10 @@ function isNextNoteSharp(notes: Array<AbsoluteNote>, index: number): boolean {
     return false;
 }
 
+function playPianoNote(absoluteNote: AbsoluteNote) {
+    new Audio('notes/piano/' + encodeURIComponent(absoluteNote.note.name) + absoluteNote.octave + '.mp3').play()
+}
+
 let piano = document.getElementById("piano");
 
 // Assume we always start from a white key.
@@ -75,6 +79,7 @@ pianoNotes
             cell.setAttribute("colspan", "2");
             notePlayButton.setAttribute("style",  "border: 1px solid black; color:white; background-color:black");
             notePlayButton.innerHTML = displayName(pianoNote);
+            cell.addEventListener("click", (e:Event) => playPianoNote(pianoNote));
             cell.appendChild(notePlayButton);
         }
         blackKeys.append(cell);
@@ -91,6 +96,7 @@ pianoNotes
         noteCell.appendChild(notePlayButton);
         noteCell.setAttribute("colspan", "3");
         noteCell.setAttribute("style", "border: 1px solid black;");
+        noteCell.addEventListener("click", (e:Event) => playPianoNote(pianoNote));
         whiteKeys.appendChild(noteCell);
     });
 piano.appendChild(whiteKeys);

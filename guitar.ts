@@ -1,3 +1,5 @@
+let NUMBER_OF_GUITAR_FRETS = 5;
+
 class GuitarNote {
     constructor(public guitarString: string, public fretNumber: number, public absoluteNote: AbsoluteNote) { }
 }
@@ -13,7 +15,7 @@ function addNotesFromFret(guitarString: string, startNote: Note, startOctave: nu
     var currentString = new GuitarNote(guitarString, 0, new AbsoluteNote(startNote, startOctave));
     let result = [];
     result.push(currentString);
-    for (let i = 0; i < 13; i++) {
+    for (let i = 0; i <= NUMBER_OF_GUITAR_FRETS; i++) {
         currentString = increaseGuitarPitch(currentString);
         result.push(currentString);
     }
@@ -32,8 +34,12 @@ let guitarNotes = []
 
 let guitar = document.getElementById("guitar");
 
-function playGuitarNote(guitarString: String, fretNumber: number) {
-    new Audio('notes/guitar/' + guitarString + '-Fret' + fretNumber + '.mp3').play()
+function getGuitarFilepath(guitarNote: GuitarNote): string {
+    return 'notes/guitar/' + guitarNote.guitarString + '-Fret' + guitarNote.fretNumber + '.mp3';
+}
+
+function playGuitarNote(guitarNote: GuitarNote) {
+    new Audio(getGuitarFilepath(guitarNote)).play();
 }
 
 for (let guitarString of ['E1', 'B', 'G', 'D', 'A', "E2"]) {
@@ -44,12 +50,8 @@ for (let guitarString of ['E1', 'B', 'G', 'D', 'A', "E2"]) {
         let noteCell = document.createElement("td");
         noteCell.setAttribute("style", "border: 1px solid black;");
         let notePlayButton;
-        if (guitarNote.fretNumber <= 5) {
-            notePlayButton = document.createElement("button");
-            notePlayButton.addEventListener("click", (e:Event) => playGuitarNote(guitarString, guitarNote.fretNumber));
-        } else {
-            notePlayButton = document.createElement("div");
-        }
+        notePlayButton = document.createElement("button");
+        notePlayButton.addEventListener("click", (e:Event) => playGuitarNote(guitarNote));
         notePlayButton.innerHTML = displayName(guitarNote.absoluteNote);
         noteCell.appendChild(notePlayButton);
         guitarStringRow.appendChild(noteCell);

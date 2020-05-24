@@ -14,8 +14,11 @@ var pianoNotes = generatePianoNotes(new AbsoluteNote(NOTES.E, 2), new AbsoluteNo
 function isNextNoteSharp(notes, index) {
     return false;
 }
+function getPianoFilepath(absoluteNote) {
+    return 'notes/piano/' + encodeURIComponent(absoluteNote.note.name) + absoluteNote.octave + '.mp3';
+}
 function playPianoNote(absoluteNote) {
-    new Audio('notes/piano/' + encodeURIComponent(absoluteNote.note.name) + absoluteNote.octave + '.mp3').play();
+    new Audio(getPianoFilepath(absoluteNote)).play();
 }
 var piano = document.getElementById("piano");
 // Assume we always start from a white key.

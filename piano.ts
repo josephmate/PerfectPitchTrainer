@@ -21,8 +21,12 @@ function isNextNoteSharp(notes: Array<AbsoluteNote>, index: number): boolean {
     return false;
 }
 
+function getPianoFilepath(absoluteNote: AbsoluteNote): string {
+    return 'notes/piano/' + encodeURIComponent(absoluteNote.note.name) + absoluteNote.octave + '.mp3';
+}
+
 function playPianoNote(absoluteNote: AbsoluteNote) {
-    new Audio('notes/piano/' + encodeURIComponent(absoluteNote.note.name) + absoluteNote.octave + '.mp3').play()
+    new Audio(getPianoFilepath(absoluteNote)).play()
 }
 
 let piano = document.getElementById("piano");

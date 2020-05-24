@@ -15,7 +15,7 @@ function addNotesFromFret(guitarString: string, startNote: Note, startOctave: nu
     var currentString = new GuitarNote(guitarString, 0, new AbsoluteNote(startNote, startOctave));
     let result = [];
     result.push(currentString);
-    for (let i = 0; i <= NUMBER_OF_GUITAR_FRETS; i++) {
+    for (let i = 0; i < NUMBER_OF_GUITAR_FRETS; i++) {
         currentString = increaseGuitarPitch(currentString);
         result.push(currentString);
     }

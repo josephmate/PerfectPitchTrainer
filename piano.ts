@@ -14,7 +14,7 @@ function generatePianoNotes(startNote: AbsoluteNote, endNote: AbsoluteNote) {
 
 let pianoNotes = generatePianoNotes(
     new AbsoluteNote(NOTES.E, 2),
-    new AbsoluteNote(NOTES.C, 4)
+    new AbsoluteNote(NOTES.A, 4)
 );
 
 function isNextNoteSharp(notes: Array<AbsoluteNote>, index: number): boolean {

@@ -15,22 +15,12 @@
             The score resets everyday, but your computer will save it so you can track your progress.
         </div>
 
-        <div><button id="playRandomNote" onclick="playRandomNote()">Play Note</button></div>
+        <div>
+            <button id="playRandomNote" onclick="playRandomNote()">Play Note</button>
+            <span id="statusSpan"></span>
+        </div>
         <div>Guess
-            <ul>
-                <li><button id="guessA"      onclick="guess('A')"     >A</button></li>
-                <li><button id="guessASharp" onclick="guess('ASharp')">A#; Bb</button></li>
-                <li><button id="guessB"      onclick="guess('B')"     >B</button></li>
-                <li><button id="guessC"      onclick="guess('C')"     >C</button></li>
-                <li><button id="guessCSharp" onclick="guess('CSharp')">C#; Db</button></li>
-                <li><button id="guessD"      onclick="guess('D')"     >D</button></li>
-                <li><button id="guessDSharp" onclick="guess('DSharp')">D#; Eb</button></li>
-                <li><button id="guessE"      onclick="guess('E')"     >E</button></li>
-                <li><button id="guessF"      onclick="guess('F')"     >F</button></li>
-                <li><button id="guessFSharp" onclick="guess('FSharp')">F#; Gb</button></li>
-                <li><button id="guessG"      onclick="guess('G')"     >G</button></li>
-                <li><button id="guessGSharp" onclick="guess('GSharp')">G#; Ab</button></li>
-                <li><button id="skip" onclick="skip()">Don't know</button></li>
+            <ul id="guesses">
             </ul>
         </div>
         

@@ -25,11 +25,11 @@
         </div>
         
         <h1>Settings</h1>
-        <div id="freeModeSettings">
-            Notes to include:
-            <ul id="">
- 
-            </ul>
+        <div id="freeModeSettingsDiv">
+            Mark a check next to each note you would like to practice with:
+            <ul id="freeModeSettingsList"></ul>
+            <button id="applyFreeModeSettings" onclick="applyFreeModeSettings()">Apply Settings</button>
+            <span>: note applying setting will reset the current note.</span>
         </div>
         <p hidden>
             <button id="repeatNote" onclick="repeatNote()">Switch to Test</button>:

@@ -36,33 +36,7 @@ notesByRank.forEach(note => {
     freeModeSettingsList.appendChild(listItem);
 });
 
-function getEnabledNotes(): Array<Note> {
-    let result = [];
-
-    freeModeNoteSettings.forEach((value, index) => {
-        if (value.checked) {
-            result.push(notesByRank[index]);
-        }
-    });
-
-    return result;
-}
-
-function getNotesByRankEnabledMap() {
-    let enabledNotes = {};
-    freeModeNoteSettings.forEach((value, index) => {
-        if (value.checked) {
-            enabledNotes[index] = true;
-        } else {
-            false;
-        }
-    });
-    return enabledNotes;
-}
-
-function getFilteredGuitarNotes(): Array<GuitarNote> {
-    let enabledNotes = getNotesByRankEnabledMap();
-
+function getFilteredGuitarNotes(enabledNotes: Array<boolean>): Array<GuitarNote> {
     let result = [];
     guitarNotes.forEach(guitarNote => {
         if(enabledNotes[guitarNote.absoluteNote.note.rank]) {
@@ -72,9 +46,7 @@ function getFilteredGuitarNotes(): Array<GuitarNote> {
     return result;
 }
 
-function getFilteredPianoNotes(): Array<AbsoluteNote> {
-    let enabledNotes = getNotesByRankEnabledMap();
-
+function getFilteredPianoNotes(enabledNotes: Array<boolean>): Array<AbsoluteNote> {
     let result = [];
     pianoNotes.forEach(pianoNote => {
         if(enabledNotes[pianoNote.note.rank]) {
@@ -84,9 +56,13 @@ function getFilteredPianoNotes(): Array<AbsoluteNote> {
     return result;
 }
 
+var gameNoteEnableMap: Array<boolean>;
 function randomNote(): RandomNote {
-    let filteredGuitarNotes = getFilteredGuitarNotes();
-    let filteredPianoNotes = getFilteredPianoNotes();
+    if(!gameNoteEnableMap) {
+        throw "gameNoteEnableMap not set yet!";
+    }
+    let filteredGuitarNotes = getFilteredGuitarNotes(gameNoteEnableMap);
+    let filteredPianoNotes = getFilteredPianoNotes(gameNoteEnableMap);
 
     let totalNotes = filteredGuitarNotes.length + filteredPianoNotes.length;
     let randomIndex = randomInteger(0, totalNotes-1);
@@ -101,7 +77,7 @@ function randomNote(): RandomNote {
     }
 }
 
-var currentRandomNote = randomNote();
+var currentRandomNote: RandomNote;
 function playRandomNote() {
     new Audio(currentRandomNote.filepath).play();
 }
@@ -122,21 +98,21 @@ function guess(note: Note, statusSpan: HTMLElement) {
 }
 
 let guesses = document.getElementById("guesses");
-function applyFreeModeSettings() {
+function applySettings(enabledNotes: Array<boolean>) {
     guesses.innerHTML = "";
-    getEnabledNotes().forEach(note => {
-        let listItem = document.createElement("li");
-        let button = document.createElement("button");
-        let statusSpan = document.createElement("span");
-        statusSpan.className = "guessStatus";
-        button.innerText = note.name;
-        button.addEventListener("click", (e:Event) => guess(note, statusSpan));
-        listItem.appendChild(button);
-        listItem.appendChild(statusSpan);
-        guesses.appendChild(listItem);
+    notesByRank.forEach(note => {
+        if (enabledNotes[note.rank]) {
+            let listItem = document.createElement("li");
+            let button = document.createElement("button");
+            let statusSpan = document.createElement("span");
+            statusSpan.className = "guessStatus";
+            button.innerText = note.name;
+            button.addEventListener("click", (e:Event) => guess(note, statusSpan));
+            listItem.appendChild(button);
+            listItem.appendChild(statusSpan);
+            guesses.appendChild(listItem);
+        }
     });
+    gameNoteEnableMap = enabledNotes;
     currentRandomNote = randomNote();
 }
-
-// prepare the guess buttons
-applyFreeModeSettings();

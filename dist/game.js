@@ -34,29 +34,7 @@ notesByRank.forEach(function (note) {
     listItem.appendChild(span);
     freeModeSettingsList.appendChild(listItem);
 });
-function getEnabledNotes() {
-    var result = [];
-    freeModeNoteSettings.forEach(function (value, index) {
-        if (value.checked) {
-            result.push(notesByRank[index]);
-        }
-    });
-    return result;
-}
-function getNotesByRankEnabledMap() {
-    var enabledNotes = {};
-    freeModeNoteSettings.forEach(function (value, index) {
-        if (value.checked) {
-            enabledNotes[index] = true;
-        }
-        else {
-            false;
-        }
-    });
-    return enabledNotes;
-}
-function getFilteredGuitarNotes() {
-    var enabledNotes = getNotesByRankEnabledMap();
+function getFilteredGuitarNotes(enabledNotes) {
     var result = [];
     guitarNotes.forEach(function (guitarNote) {
         if (enabledNotes[guitarNote.absoluteNote.note.rank]) {
@@ -65,8 +43,7 @@ function getFilteredGuitarNotes() {
     });
     return result;
 }
-function getFilteredPianoNotes() {
-    var enabledNotes = getNotesByRankEnabledMap();
+function getFilteredPianoNotes(enabledNotes) {
     var result = [];
     pianoNotes.forEach(function (pianoNote) {
         if (enabledNotes[pianoNote.note.rank]) {
@@ -75,9 +52,13 @@ function getFilteredPianoNotes() {
     });
     return result;
 }
+var gameNoteEnableMap;
 function randomNote() {
-    var filteredGuitarNotes = getFilteredGuitarNotes();
-    var filteredPianoNotes = getFilteredPianoNotes();
+    if (!gameNoteEnableMap) {
+        throw "gameNoteEnableMap not set yet!";
+    }
+    var filteredGuitarNotes = getFilteredGuitarNotes(gameNoteEnableMap);
+    var filteredPianoNotes = getFilteredPianoNotes(gameNoteEnableMap);
     var totalNotes = filteredGuitarNotes.length + filteredPianoNotes.length;
     var randomIndex = randomInteger(0, totalNotes - 1);
     if (randomIndex < filteredGuitarNotes.length) {
@@ -91,7 +72,7 @@ function randomNote() {
         return new RandomNote(getPianoFilepath(pianoNote), pianoNote);
     }
 }
-var currentRandomNote = randomNote();
+var currentRandomNote;
 function playRandomNote() {
     new Audio(currentRandomNote.filepath).play();
 }
@@ -111,20 +92,21 @@ function guess(note, statusSpan) {
     }
 }
 var guesses = document.getElementById("guesses");
-function applyFreeModeSettings() {
+function applySettings(enabledNotes) {
     guesses.innerHTML = "";
-    getEnabledNotes().forEach(function (note) {
-        var listItem = document.createElement("li");
-        var button = document.createElement("button");
-        var statusSpan = document.createElement("span");
-        statusSpan.className = "guessStatus";
-        button.innerText = note.name;
-        button.addEventListener("click", function (e) { return guess(note, statusSpan); });
-        listItem.appendChild(button);
-        listItem.appendChild(statusSpan);
-        guesses.appendChild(listItem);
+    notesByRank.forEach(function (note) {
+        if (enabledNotes[note.rank]) {
+            var listItem = document.createElement("li");
+            var button = document.createElement("button");
+            var statusSpan_1 = document.createElement("span");
+            statusSpan_1.className = "guessStatus";
+            button.innerText = note.name;
+            button.addEventListener("click", function (e) { return guess(note, statusSpan_1); });
+            listItem.appendChild(button);
+            listItem.appendChild(statusSpan_1);
+            guesses.appendChild(listItem);
+        }
     });
+    gameNoteEnableMap = enabledNotes;
     currentRandomNote = randomNote();
 }
-// prepare the guess buttons
-applyFreeModeSettings();

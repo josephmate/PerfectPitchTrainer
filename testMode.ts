@@ -73,6 +73,12 @@ function updateStats() {
     document.getElementById("percent").innerText = calcPercent(rights, rights + wrongs);
 }
 
+function resetStats() {
+    rights = 0;
+    wrongs = 0;
+    updateStats();
+}
+
 function testModeGuessCallBack(right: boolean) {
     if(right) {
         rights++;
@@ -107,4 +113,20 @@ function disableTestMode() {
     document.getElementById("testExplanation").hidden = true;
     document.getElementById("todaysStats").hidden = true;
     guessCallback = undefined;
+}
+
+function addANote() {
+    if(numOfNotes < 12) {
+        numOfNotes++;
+        resetStats();
+        enableTestMode();
+    }
+}
+
+function removeANote() {
+    if(numOfNotes > 2) {
+        numOfNotes--;
+        resetStats();
+        enableTestMode();
+    }
 }

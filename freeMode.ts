@@ -44,6 +44,7 @@ function enableFreeMode() {
     document.getElementById("freePracticeExplanation").hidden = false;
     document.getElementById("soundReferenceTools").hidden = false;
     document.getElementById("freeModeSettingsDiv").hidden = false;
+    applyFreeModeSettings();
 }
 
 // prepare the guess buttons

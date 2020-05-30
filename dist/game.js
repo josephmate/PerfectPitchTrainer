@@ -18,22 +18,6 @@ function clearStatuses() {
         statusSpan.innerHTML = "";
     }
 }
-// map of note rank to the checkbox that enables it
-var freeModeNoteSettings = [];
-// prepare the guess settings
-var freeModeSettingsList = document.getElementById("freeModeSettingsList");
-notesByRank.forEach(function (note) {
-    var listItem = document.createElement("li");
-    var check = document.createElement("input");
-    check.type = "checkbox";
-    check.checked = true;
-    freeModeNoteSettings[note.rank] = check;
-    listItem.appendChild(check);
-    var span = document.createElement("span");
-    span.innerText = note.name;
-    listItem.appendChild(span);
-    freeModeSettingsList.appendChild(listItem);
-});
 function getFilteredGuitarNotes(enabledNotes) {
     var result = [];
     guitarNotes.forEach(function (guitarNote) {

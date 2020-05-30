@@ -2,7 +2,6 @@ class RandomNote {
     constructor(public filepath: string, public absoluteNote: AbsoluteNote) { }
 }
 
-
 function randomInteger(lowerBound: number, upperbound: number): number {
     return Math.floor(Math.random() * (upperbound-lowerBound)) + lowerBound;
 }
@@ -18,23 +17,6 @@ function clearStatuses() {
         statusSpan.innerHTML = "";
     }
 }
-
-// map of note rank to the checkbox that enables it
-let freeModeNoteSettings = [];
-// prepare the guess settings
-let freeModeSettingsList = document.getElementById("freeModeSettingsList");
-notesByRank.forEach(note => {
-    let listItem = document.createElement("li");
-    let check = document.createElement("input");
-    check.type = "checkbox";
-    check.checked = true;
-    freeModeNoteSettings[note.rank] = check;
-    listItem.appendChild(check);
-    let span = document.createElement("span");
-    span.innerText = note.name;
-    listItem.appendChild(span);
-    freeModeSettingsList.appendChild(listItem);
-});
 
 function getFilteredGuitarNotes(enabledNotes: Array<boolean>): Array<GuitarNote> {
     let result = [];

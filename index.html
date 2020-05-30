@@ -10,7 +10,7 @@
             You can play on the digital piano and guitar at the bottom to help you guess the note.
         </div>
         <div id="testExplanation" hidden>
-            You are currently testing with notes: <div id="testNotes"></div>.
+            You are currently testing with notes: <span id="testNotes"></span>.
             We we add another note once you attempt at least 10, and get over 90% accuracy that day.
             The score resets everyday, but your computer will save it so you can track your progress.
         </div>
@@ -28,22 +28,23 @@
         <div id="freeModeSettingsDiv">
             Mark a check next to each note you would like to practice with:
             <ul id="freeModeSettingsList"></ul>
-            <button id="applyFreeModeSettings" onclick="applyFreeModeSettings()">Apply Settings</button>
+            <button onclick="applyFreeModeSettings()">Apply Settings</button>
             <span>: note applying setting will reset the current note.</span>
+            <div><button onclick="enableTestMode()">Switch to Test Mode</button></div>
         </div>
-        <p hidden>
-            <button id="repeatNote" onclick="repeatNote()">Switch to Test</button>:
+        <div id="testModeSettingsDiv" hidden>
             In this mode, you cannot use the digital keyboard at the bottom for help.
             Statistics will be saved to your computer.
             We'll group the statistics by day so you can follow your progress.
-            <p hidden>
+            <p>
                 We start you off easy.
                 We will play one of two notes that can come from any octave.
                 Once you reach 90% accuracy, well add in the next note.
-                We'll do this until all notes have been added!
+                We'
+                ll do this until all notes have been added!
             </p>
-        </p>
-        <p hidden><button id="repeatNote" onclick="repeatNote()">Switch to Free Practice</button></p>
+            <div><button onclick="enableFreeMode()">Switch to Free Practice</button></div>
+        </div>
 
         <h1 hidden>Today's Stats</h1>
         <div hidden>
@@ -55,25 +56,27 @@
         <h1 hidden>History</h1>
         <div id="history" hidden></div> 
 
-        <div>
-            <h1>Piano</h1>
-            <table id="piano" style="table-layout: fixed">
-            </table>
-        </div>
+        <div id="soundReferenceTools">
+            <div id="pianoSection">
+                <h1>Piano</h1>
+                <table id="piano" style="table-layout: fixed">
+                </table>
+            </div>
 
-        <div>
-            <h1>Guitar</h1>
-            <table id="guitar">
-                <tr>
-                    <th>Fret</th>
-                    <th>Open</th>
-                    <th>1st</th>
-                    <th>2nd</th>
-                    <th>3rd</th>
-                    <th>4th</th>
-                    <th>5th</th>
-                </tr>
-            </table>
+            <div id="guitarSection">
+                <h1>Guitar</h1>
+                <table id="guitar">
+                    <tr>
+                        <th>Fret</th>
+                        <th>Open</th>
+                        <th>1st</th>
+                        <th>2nd</th>
+                        <th>3rd</th>
+                        <th>4th</th>
+                        <th>5th</th>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <script src="dist/notes.js"></script>

@@ -42,6 +42,26 @@ function computeEnabledNotes() {
     }
     return result;
 }
+function calculateNoteString() {
+    var enabledNotes = computeEnabledNotes();
+    var notesToWrite = [];
+    for (var i = 0; i < enabledNotes.length; i++) {
+        if (enabledNotes[i]) {
+            notesToWrite.push(notesByRank[i].name);
+        }
+    }
+    var result = "";
+    for (var i = 0; i < notesToWrite.length; i++) {
+        if (i > 0) {
+            result += ", ";
+        }
+        if (i == notesToWrite.length - 1) {
+            result += " and ";
+        }
+        result += notesToWrite[i];
+    }
+    return result;
+}
 function updateStats() {
     document.getElementById("rightCount").innerText = rights + "";
     document.getElementById("wrongCount").innerText = wrongs + "";
@@ -70,6 +90,7 @@ function enableTestMode() {
     document.getElementById("testModeSettingsDiv").hidden = false;
     document.getElementById("testExplanation").hidden = false;
     document.getElementById("todaysStats").hidden = false;
+    document.getElementById("testNotes").innerText = calculateNoteString();
     updateStats();
     guessCallback = testModeGuessCallBack;
     applySettings(computeEnabledNotes());

@@ -64,18 +64,23 @@ function playRandomNote() {
     new Audio(currentRandomNote.filepath).play();
 }
 
+let guessCallback: (boolean) => void;
 function guess(note: Note, statusSpan: HTMLElement) {
     if(isSame(note, currentRandomNote)) {
         statusSpan.innerText = ", was correct!";
         var topStatusSpan = document.getElementById("statusSpan");
         topStatusSpan.innerText = "Previous note was " + displayName(currentRandomNote.absoluteNote);
         currentRandomNote = randomNote();
+        if(guessCallback) {
+            guessCallback(true);
+        }
         playRandomNote();
         setTimeout(() => {
             clearStatuses();
         }, 2000);
     } else {
         statusSpan.innerText = ", is not the correct note.";
+        guessCallback(false);
     }
 }
 

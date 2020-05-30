@@ -33,6 +33,8 @@ var noteLearningOrder = [
     NOTES["B"],
 ];
 var numOfNotes = 2;
+var rights = 0;
+var wrongs = 0;
 function computeEnabledNotes() {
     var result = [];
     for (var i = 0; i < noteLearningOrder.length; i++) {
@@ -40,14 +42,41 @@ function computeEnabledNotes() {
     }
     return result;
 }
+function updateStats() {
+    document.getElementById("rightCount").innerText = rights + "";
+    document.getElementById("wrongCount").innerText = wrongs + "";
+    document.getElementById("percent").innerText = calcPercent(rights, rights + wrongs);
+}
+function testModeGuessCallBack(right) {
+    if (right) {
+        rights++;
+    }
+    else {
+        wrongs++;
+    }
+    updateStats();
+}
+function calcPercent(numerator, denominator) {
+    if (denominator == 0) {
+        return "N/A";
+    }
+    else {
+        return 100 * numerator / denominator + "%";
+    }
+}
 function enableTestMode() {
     disableFreeMode();
     document.getElementById("mode").innerText = "Test";
     document.getElementById("testModeSettingsDiv").hidden = false;
     document.getElementById("testExplanation").hidden = false;
+    document.getElementById("todaysStats").hidden = false;
+    updateStats();
+    guessCallback = testModeGuessCallBack;
     applySettings(computeEnabledNotes());
 }
 function disableTestMode() {
     document.getElementById("testModeSettingsDiv").hidden = true;
     document.getElementById("testExplanation").hidden = true;
+    document.getElementById("todaysStats").hidden = true;
+    guessCallback = undefined;
 }

@@ -18,31 +18,42 @@ function clearStatuses() {
         statusSpan.innerHTML = "";
     }
 }
-function getFilteredGuitarNotes(enabledNotes) {
+function getFilteredGuitarNotes(note) {
     var result = [];
     guitarNotes.forEach(function (guitarNote) {
-        if (enabledNotes[guitarNote.absoluteNote.note.rank]) {
+        if (note.rank == guitarNote.absoluteNote.note.rank) {
             result.push(guitarNote);
         }
     });
     return result;
 }
-function getFilteredPianoNotes(enabledNotes) {
+function getFilteredPianoNotes(note) {
     var result = [];
     pianoNotes.forEach(function (pianoNote) {
-        if (enabledNotes[pianoNote.note.rank]) {
+        if (note.rank == pianoNote.note.rank) {
             result.push(pianoNote);
         }
     });
     return result;
+}
+function calculateRandomNote(enabledNotes) {
+    var notesToPullFrom = [];
+    notesByRank.forEach(function (noteByRank) {
+        if (enabledNotes[noteByRank.rank]) {
+            notesToPullFrom.push(noteByRank);
+        }
+    });
+    var randomIndex = randomInteger(0, notesToPullFrom.length - 1);
+    return notesToPullFrom[randomIndex];
 }
 var gameNoteEnableMap;
 function randomNote() {
     if (!gameNoteEnableMap) {
         throw "gameNoteEnableMap not set yet!";
     }
-    var filteredGuitarNotes = getFilteredGuitarNotes(gameNoteEnableMap);
-    var filteredPianoNotes = getFilteredPianoNotes(gameNoteEnableMap);
+    var randomNote = calculateRandomNote(gameNoteEnableMap);
+    var filteredGuitarNotes = getFilteredGuitarNotes(randomNote);
+    var filteredPianoNotes = getFilteredPianoNotes(randomNote);
     var totalNotes = filteredGuitarNotes.length + filteredPianoNotes.length;
     var randomIndex = randomInteger(0, totalNotes - 1);
     if (randomIndex < filteredGuitarNotes.length) {

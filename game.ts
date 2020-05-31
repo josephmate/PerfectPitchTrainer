@@ -18,24 +18,35 @@ function clearStatuses() {
     }
 }
 
-function getFilteredGuitarNotes(enabledNotes: Array<boolean>): Array<GuitarNote> {
+function getFilteredGuitarNotes(note: Note): Array<GuitarNote> {
     let result = [];
     guitarNotes.forEach(guitarNote => {
-        if(enabledNotes[guitarNote.absoluteNote.note.rank]) {
+        if(note.rank == guitarNote.absoluteNote.note.rank) {
             result.push(guitarNote);
         }
     });
     return result;
 }
 
-function getFilteredPianoNotes(enabledNotes: Array<boolean>): Array<AbsoluteNote> {
+function getFilteredPianoNotes(note: Note): Array<AbsoluteNote> {
     let result = [];
     pianoNotes.forEach(pianoNote => {
-        if(enabledNotes[pianoNote.note.rank]) {
+        if(note.rank == pianoNote.note.rank) {
             result.push(pianoNote);
         }
     });
     return result;
+}
+
+function calculateRandomNote(enabledNotes: Array<boolean>): Note {
+    let notesToPullFrom = [];
+    notesByRank.forEach(noteByRank => {
+        if(enabledNotes[noteByRank.rank]) {
+            notesToPullFrom.push(noteByRank);
+        }
+    });
+    let randomIndex = randomInteger(0, notesToPullFrom.length-1);
+    return notesToPullFrom[randomIndex];
 }
 
 var gameNoteEnableMap: Array<boolean>;
@@ -43,8 +54,9 @@ function randomNote(): RandomNote {
     if(!gameNoteEnableMap) {
         throw "gameNoteEnableMap not set yet!";
     }
-    let filteredGuitarNotes = getFilteredGuitarNotes(gameNoteEnableMap);
-    let filteredPianoNotes = getFilteredPianoNotes(gameNoteEnableMap);
+    let randomNote = calculateRandomNote(gameNoteEnableMap);
+    let filteredGuitarNotes = getFilteredGuitarNotes(randomNote);
+    let filteredPianoNotes = getFilteredPianoNotes(randomNote);
 
     let totalNotes = filteredGuitarNotes.length + filteredPianoNotes.length;
     let randomIndex = randomInteger(0, totalNotes-1);

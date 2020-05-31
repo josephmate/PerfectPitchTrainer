@@ -2,8 +2,14 @@ class RandomNote {
     constructor(public filepath: string, public absoluteNote: AbsoluteNote) { }
 }
 
+/**
+ * Returns a random integer from the set [lowerBound, upperBound].
+ * 
+ * @param lowerBound inclusive
+ * @param upperbound inclusive
+ */
 function randomInteger(lowerBound: number, upperbound: number): number {
-    return Math.floor(Math.random() * (upperbound-lowerBound)) + lowerBound;
+    return Math.floor(Math.random() * (upperbound + 1 - lowerBound)) + lowerBound;
 }
 
 function isSame(note: Note, randomNote: RandomNote): boolean {
@@ -50,7 +56,7 @@ function calculateRandomNote(enabledNotes: Array<boolean>): Note {
 }
 
 var gameNoteEnableMap: Array<boolean>;
-function randomNote(): RandomNote {
+function randomNoteImpl(): RandomNote {
     if(!gameNoteEnableMap) {
         throw "gameNoteEnableMap not set yet!";
     }
@@ -69,6 +75,20 @@ function randomNote(): RandomNote {
         let pianoNote = filteredPianoNotes[pianoIndex]
         return new RandomNote(getPianoFilepath(pianoNote), pianoNote);
     }
+}
+
+
+let randomnessTracker = {};
+function randomNote(): RandomNote {
+    let randomNote = randomNoteImpl();
+    var currentStat = randomnessTracker[randomNote.absoluteNote.note.name];
+    if(!currentStat) {
+        randomnessTracker[randomNote.absoluteNote.note.name] = 0
+    }
+    randomnessTracker[randomNote.absoluteNote.note.name]++;
+
+    console.info(JSON.stringify(randomnessTracker));
+    return randomNote;
 }
 
 var currentRandomNote: RandomNote;

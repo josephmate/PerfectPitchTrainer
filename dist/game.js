@@ -5,8 +5,14 @@ var RandomNote = /** @class */ (function () {
     }
     return RandomNote;
 }());
+/**
+ * Returns a random integer from the set [lowerBound, upperBound].
+ *
+ * @param lowerBound inclusive
+ * @param upperbound inclusive
+ */
 function randomInteger(lowerBound, upperbound) {
-    return Math.floor(Math.random() * (upperbound - lowerBound)) + lowerBound;
+    return Math.floor(Math.random() * (upperbound + 1 - lowerBound)) + lowerBound;
 }
 function isSame(note, randomNote) {
     return randomNote.absoluteNote.note.rank === note.rank;
@@ -47,7 +53,7 @@ function calculateRandomNote(enabledNotes) {
     return notesToPullFrom[randomIndex];
 }
 var gameNoteEnableMap;
-function randomNote() {
+function randomNoteImpl() {
     if (!gameNoteEnableMap) {
         throw "gameNoteEnableMap not set yet!";
     }
@@ -66,6 +72,17 @@ function randomNote() {
         var pianoNote = filteredPianoNotes[pianoIndex];
         return new RandomNote(getPianoFilepath(pianoNote), pianoNote);
     }
+}
+var randomnessTracker = {};
+function randomNote() {
+    var randomNote = randomNoteImpl();
+    var currentStat = randomnessTracker[randomNote.absoluteNote.note.name];
+    if (!currentStat) {
+        randomnessTracker[randomNote.absoluteNote.note.name] = 0;
+    }
+    randomnessTracker[randomNote.absoluteNote.note.name]++;
+    console.info(JSON.stringify(randomnessTracker));
+    return randomNote;
 }
 var currentRandomNote;
 function playRandomNote() {

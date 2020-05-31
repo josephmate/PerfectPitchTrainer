@@ -75,6 +75,12 @@ function resetStats() {
 function testModeGuessCallBack(right) {
     if (right) {
         rights++;
+        if (rights >= 10 && rights / (rights + wrongs) > 0.9) {
+            addANote();
+        }
+        else if (rights >= 10 && rights / (rights + wrongs) < 0.5) {
+            removeANote();
+        }
     }
     else {
         wrongs++;
@@ -106,17 +112,31 @@ function disableTestMode() {
     document.getElementById("todaysStats").hidden = true;
     guessCallback = undefined;
 }
+/**
+ * Adds a note if there are more notes available.
+ */
 function addANote() {
     if (numOfNotes < 12) {
         numOfNotes++;
         resetStats();
         enableTestMode();
+        // new note was added
+        return true;
     }
+    // new note was not added
+    return false;
 }
+/**
+ * Removes a note if there are more than two notes.
+ */
 function removeANote() {
     if (numOfNotes > 2) {
         numOfNotes--;
         resetStats();
         enableTestMode();
+        // new note was removed
+        return true;
     }
+    // new note was not removed
+    return false;
 }

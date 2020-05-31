@@ -34,9 +34,9 @@ let noteLearningOrder = [
     NOTES["F"],   // distance of 1 and 1
     NOTES["B"],   // distance of 1 and 1
 ];
-var numOfNotes = 2;
-var rights = 0;
-var wrongs = 0;
+var numOfNotes: number = 2;
+var rights: number = 0;
+var wrongs: number = 0;
 
 function computeEnabledNotes(): Array<boolean> {
     let result = [];
@@ -82,6 +82,11 @@ function resetStats() {
 function testModeGuessCallBack(right: boolean) {
     if(right) {
         rights++;
+        if(rights >= 10 && rights / (rights + wrongs) > 0.9) {
+            addANote();
+        } else if(rights >= 10 && rights / (rights + wrongs) < 0.5) {
+            removeANote();
+        }
     } else {
         wrongs++;
     }
@@ -115,18 +120,32 @@ function disableTestMode() {
     guessCallback = undefined;
 }
 
-function addANote() {
+/**
+ * Adds a note if there are more notes available.
+ */
+function addANote(): boolean {
     if(numOfNotes < 12) {
         numOfNotes++;
         resetStats();
         enableTestMode();
+        // new note was added
+        return true;
     }
+    // new note was not added
+    return false;
 }
 
+/**
+ * Removes a note if there are more than two notes.
+ */
 function removeANote() {
     if(numOfNotes > 2) {
         numOfNotes--;
         resetStats();
         enableTestMode();
+        // new note was removed
+        return true;
     }
+    // new note was not removed
+    return false;
 }

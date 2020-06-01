@@ -2,18 +2,21 @@
 var freeModeNoteSettings = [];
 // prepare the guess settings
 var freeModeSettingsList = document.getElementById("freeModeSettingsList");
-notesByRank.forEach(function (note) {
-    var listItem = document.createElement("li");
-    var check = document.createElement("input");
-    check.type = "checkbox";
-    check.checked = true;
-    freeModeNoteSettings[note.rank] = check;
-    listItem.appendChild(check);
-    var span = document.createElement("span");
-    span.innerText = note.name;
-    listItem.appendChild(span);
-    freeModeSettingsList.appendChild(listItem);
-});
+function loadFreeModeSettings() {
+    var loadedFreeModeSettings = loadArray("freeModeSettings");
+    notesByRank.forEach(function (note, index) {
+        var listItem = document.createElement("li");
+        var check = document.createElement("input");
+        check.type = "checkbox";
+        check.checked = loadedFreeModeSettings == undefined || loadedFreeModeSettings[index];
+        freeModeNoteSettings[note.rank] = check;
+        listItem.appendChild(check);
+        var span = document.createElement("span");
+        span.innerText = note.name;
+        listItem.appendChild(span);
+        freeModeSettingsList.appendChild(listItem);
+    });
+}
 function getNotesByRankEnabledMap() {
     var enabledNotes = [];
     freeModeNoteSettings.forEach(function (value, index) {
@@ -27,7 +30,9 @@ function getNotesByRankEnabledMap() {
     return enabledNotes;
 }
 function applyFreeModeSettings() {
-    applySettings(getNotesByRankEnabledMap());
+    var enabledNotesMap = getNotesByRankEnabledMap();
+    applySettings(enabledNotesMap);
+    saveArray("freeModeSettings", enabledNotesMap);
 }
 function disableFreeMode() {
     document.getElementById("freePracticeExplanation").hidden = true;
@@ -42,5 +47,6 @@ function enableFreeMode() {
     document.getElementById("freeModeSettingsDiv").hidden = false;
     applyFreeModeSettings();
 }
+loadFreeModeSettings();
 // prepare the guess buttons
 applyFreeModeSettings();

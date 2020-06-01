@@ -105,7 +105,9 @@ function guess(note, statusSpan) {
     }
     else {
         statusSpan.innerText = ", is not the correct note.";
-        guessCallback(false);
+        if (guessCallback) {
+            guessCallback(false);
+        }
     }
 }
 var guesses = document.getElementById("guesses");

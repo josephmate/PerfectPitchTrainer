@@ -112,7 +112,9 @@ function guess(note: Note, statusSpan: HTMLElement) {
         }, 2000);
     } else {
         statusSpan.innerText = ", is not the correct note.";
-        guessCallback(false);
+        if(guessCallback) {
+            guessCallback(false);
+        }
     }
 }
 

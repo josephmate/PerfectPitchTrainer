@@ -1,4 +1,20 @@
 
+let SETTING_NUMBER_OF_TESTS_NOTES = "numberOfTestNotes";
+let DEFAULT_NUMBER_OF_NOTES = 2;
+
+/**
+ * String array will record the dates with stats:
+ * [ "YYYY-MM-DD-NUMOFNOTES" ... "YYYY-MM-DD-NUMOFNOTES" ]
+ * 
+ * Then localStorage will look like
+ * save(YYYY-MM-DD-NUMOFNOTES",
+ *     "{rights: 1,
+ *      wrongs: 2}""
+ * );
+ */
+class DailyStats {
+    constructor(rights: number, wrongs: number) { }
+}
 
 /**
  * I want to put as much distance between the notes to make them easier to learn.
@@ -34,9 +50,10 @@ let noteLearningOrder = [
     NOTES["F"],   // distance of 1 and 1
     NOTES["B"],   // distance of 1 and 1
 ];
-var numOfNotes: number = 2;
+var numOfNotes: number = DEFAULT_NUMBER_OF_NOTES;
 var rights: number = 0;
 var wrongs: number = 0;
+
 
 function computeEnabledNotes(): Array<boolean> {
     let result = [];
@@ -126,6 +143,7 @@ function disableTestMode() {
 function addANote(): boolean {
     if(numOfNotes < 12) {
         numOfNotes++;
+        saveNumber(SETTING_NUMBER_OF_TESTS_NOTES, numOfNotes);
         resetStats();
         enableTestMode();
         // new note was added
@@ -141,6 +159,7 @@ function addANote(): boolean {
 function removeANote() {
     if(numOfNotes > 2) {
         numOfNotes--;
+        saveNumber(SETTING_NUMBER_OF_TESTS_NOTES, numOfNotes);
         resetStats();
         enableTestMode();
         // new note was removed
@@ -149,3 +168,14 @@ function removeANote() {
     // new note was not removed
     return false;
 }
+
+function loadTestModeDailyStats() {
+    let numberOfTestNotes = loadNumber(SETTING_NUMBER_OF_TESTS_NOTES);
+    if (numberOfTestNotes != undefined) {
+        numOfNotes = numberOfTestNotes;
+    } else {
+        saveNumber(SETTING_NUMBER_OF_TESTS_NOTES, numOfNotes);
+    }
+}
+
+loadTestModeDailyStats();

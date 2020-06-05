@@ -3,7 +3,7 @@ var freeModeNoteSettings = [];
 // prepare the guess settings
 var freeModeSettingsList = document.getElementById("freeModeSettingsList");
 function loadFreeModeSettings() {
-    var loadedFreeModeSettings = loadArray("freeModeSettings");
+    var loadedFreeModeSettings = loadBooleanArray("freeModeSettings");
     notesByRank.forEach(function (note, index) {
         var listItem = document.createElement("li");
         var check = document.createElement("input");
@@ -32,7 +32,7 @@ function getNotesByRankEnabledMap() {
 function applyFreeModeSettings() {
     var enabledNotesMap = getNotesByRankEnabledMap();
     applySettings(enabledNotesMap);
-    saveArray("freeModeSettings", enabledNotesMap);
+    saveBooleanArray("freeModeSettings", enabledNotesMap);
 }
 function disableFreeMode() {
     document.getElementById("freePracticeExplanation").hidden = true;

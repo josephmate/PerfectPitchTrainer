@@ -4,7 +4,7 @@ let freeModeNoteSettings = [];
 let freeModeSettingsList = document.getElementById("freeModeSettingsList");
 
 function loadFreeModeSettings() {
-    let loadedFreeModeSettings = loadArray("freeModeSettings");
+    let loadedFreeModeSettings = loadBooleanArray("freeModeSettings");
     notesByRank.forEach((note, index) => {
         let listItem = document.createElement("li");
         let check = document.createElement("input");
@@ -34,7 +34,7 @@ function getNotesByRankEnabledMap(): Array<boolean> {
 function applyFreeModeSettings() {
     let enabledNotesMap = getNotesByRankEnabledMap();
     applySettings(enabledNotesMap);
-    saveArray("freeModeSettings", enabledNotesMap);
+    saveBooleanArray("freeModeSettings", enabledNotesMap);
 }
 
 function disableFreeMode() {

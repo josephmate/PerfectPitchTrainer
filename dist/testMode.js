@@ -12,6 +12,8 @@ var DEFAULT_NUMBER_OF_NOTES = 2;
  */
 var DailyStats = /** @class */ (function () {
     function DailyStats(rights, wrongs) {
+        this.rights = rights;
+        this.wrongs = wrongs;
     }
     return DailyStats;
 }());
@@ -89,9 +91,38 @@ function resetStats() {
     wrongs = 0;
     updateStats();
 }
+function formatTwoDigits(num) {
+    if (num <= 9) {
+        return "0" + num;
+    }
+    return "" + num;
+}
+function currentDateAsString() {
+    var currentDate = new Date();
+    return currentDate.getFullYear() + "-" + formatTwoDigits(currentDate.getMonth()) + "-" + formatTwoDigits(currentDate.getDay());
+}
+function getDailyStatPosition() {
+    return "DailyStats:" + currentDateAsString() + ":Notes:" + numOfNotes;
+}
+function incrementRights() {
+    rights++;
+    var prevDailyStats = loadDailyStats(getDailyStatPosition());
+    if (prevDailyStats == undefined) {
+        prevDailyStats = new DailyStats(0, 0);
+    }
+    saveDailyStats(getDailyStatPosition(), new DailyStats(prevDailyStats.rights + 1, prevDailyStats.wrongs));
+}
+function incrementWrongs() {
+    wrongs++;
+    var prevDailyStats = loadDailyStats(getDailyStatPosition());
+    if (prevDailyStats == undefined) {
+        prevDailyStats = new DailyStats(0, 0);
+    }
+    saveDailyStats(getDailyStatPosition(), new DailyStats(prevDailyStats.rights, prevDailyStats.wrongs + 1));
+}
 function testModeGuessCallBack(right) {
     if (right) {
-        rights++;
+        incrementRights();
         if (rights >= 10 && rights / (rights + wrongs) > 0.9) {
             addANote();
         }
@@ -100,7 +131,7 @@ function testModeGuessCallBack(right) {
         }
     }
     else {
-        wrongs++;
+        incrementWrongs();
     }
     updateStats();
 }

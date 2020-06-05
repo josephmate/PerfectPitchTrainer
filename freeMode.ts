@@ -1,10 +1,11 @@
+let SETTINGS_FREE_MODE_SETTINGS = "freeModeSettings";
 // map of note rank to the checkbox that enables it
 let freeModeNoteSettings = [];
 // prepare the guess settings
 let freeModeSettingsList = document.getElementById("freeModeSettingsList");
 
 function loadFreeModeSettings() {
-    let loadedFreeModeSettings = loadBooleanArray("freeModeSettings");
+    let loadedFreeModeSettings = loadBooleanArray(SETTINGS_FREE_MODE_SETTINGS);
     notesByRank.forEach((note, index) => {
         let listItem = document.createElement("li");
         let check = document.createElement("input");
@@ -34,7 +35,7 @@ function getNotesByRankEnabledMap(): Array<boolean> {
 function applyFreeModeSettings() {
     let enabledNotesMap = getNotesByRankEnabledMap();
     applySettings(enabledNotesMap);
-    saveBooleanArray("freeModeSettings", enabledNotesMap);
+    saveBooleanArray(SETTINGS_FREE_MODE_SETTINGS, enabledNotesMap);
 }
 
 function disableFreeMode() {

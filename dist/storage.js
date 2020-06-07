@@ -1,3 +1,13 @@
+function listDailyStats() {
+    var results = [];
+    var keys = Object.keys(localStorage);
+    for (var i = 0; i < keys.length; i++) {
+        if (keys[i].indexOf(DAILY_STATS_PREFIX) == 0) {
+            results.push(keys[i]);
+        }
+    }
+    return results;
+}
 function saveDailyStats(settingName, dailySats) {
     localStorage.setItem(settingName, JSON.stringify(dailySats));
 }

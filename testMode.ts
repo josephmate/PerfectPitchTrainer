@@ -3,20 +3,6 @@ let SETTING_NUMBER_OF_TESTS_NOTES = "numberOfTestNotes";
 let DEFAULT_NUMBER_OF_NOTES = 2;
 
 /**
- * String array will record the dates with stats:
- * [ "YYYY-MM-DD-NUMOFNOTES" ... "YYYY-MM-DD-NUMOFNOTES" ]
- * 
- * Then localStorage will look like
- * save(YYYY-MM-DD-NUMOFNOTES",
- *     "{rights: 1,
- *      wrongs: 2}""
- * );
- */
-class DailyStats {
-    constructor(readonly rights: number, readonly wrongs: number) { }
-}
-
-/**
  * I want to put as much distance between the notes to make them easier to learn.
  * That way added a new note is incrementally harder.
  * For instance, I believe it should be able to identifier the difference between
@@ -103,31 +89,14 @@ function formatTwoDigits(num: number): string {
     return "" + num;
 }
 
-function currentDateAsString(): string {
-    let currentDate = new Date();
-    return currentDate.getFullYear() + "-" + formatTwoDigits(currentDate.getMonth()) + "-" + formatTwoDigits(currentDate.getDay());
-}
-
-function getDailyStatPosition(): string {
-    return "DailyStats:" + currentDateAsString() + ":Notes:" + numOfNotes;
-}
-
 function incrementRights() {
     rights++;
-    let prevDailyStats = loadDailyStats(getDailyStatPosition());
-    if (prevDailyStats == undefined) {
-        prevDailyStats = new DailyStats(0, 0);
-    }
-    saveDailyStats(getDailyStatPosition(), new DailyStats(prevDailyStats.rights + 1, prevDailyStats.wrongs));
+    incrementDailyRights(numOfNotes);
 }
 
 function incrementWrongs() {
     wrongs++;
-    let prevDailyStats = loadDailyStats(getDailyStatPosition());
-    if (prevDailyStats == undefined) {
-        prevDailyStats = new DailyStats(0, 0);
-    }
-    saveDailyStats(getDailyStatPosition(), new DailyStats(prevDailyStats.rights, prevDailyStats.wrongs + 1));
+    incrementDailyWrongs(numOfNotes);
 }
 
 function testModeGuessCallBack(right: boolean) {
@@ -142,14 +111,6 @@ function testModeGuessCallBack(right: boolean) {
         incrementWrongs();
     }
     updateStats();
-}
-
-function calcPercent(numerator: number, denominator: number): string {
-    if(denominator == 0){
-        return "N/A";
-    } else {
-        return 100 * numerator / denominator + "%";
-    }
 }
 
 function enableTestMode() {
@@ -203,7 +164,7 @@ function removeANote() {
     return false;
 }
 
-function loadTestModeDailyStats() {
+function loadTestModeSettings() {
     let numberOfTestNotes = loadNumber(SETTING_NUMBER_OF_TESTS_NOTES);
     if (numberOfTestNotes != undefined) {
         numOfNotes = numberOfTestNotes;
@@ -212,4 +173,4 @@ function loadTestModeDailyStats() {
     }
 }
 
-loadTestModeDailyStats();
+loadTestModeSettings();

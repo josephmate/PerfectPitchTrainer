@@ -1,23 +1,6 @@
 var SETTING_NUMBER_OF_TESTS_NOTES = "numberOfTestNotes";
 var DEFAULT_NUMBER_OF_NOTES = 2;
 /**
- * String array will record the dates with stats:
- * [ "YYYY-MM-DD-NUMOFNOTES" ... "YYYY-MM-DD-NUMOFNOTES" ]
- *
- * Then localStorage will look like
- * save(YYYY-MM-DD-NUMOFNOTES",
- *     "{rights: 1,
- *      wrongs: 2}""
- * );
- */
-var DailyStats = /** @class */ (function () {
-    function DailyStats(rights, wrongs) {
-        this.rights = rights;
-        this.wrongs = wrongs;
-    }
-    return DailyStats;
-}());
-/**
  * I want to put as much distance between the notes to make them easier to learn.
  * That way added a new note is incrementally harder.
  * For instance, I believe it should be able to identifier the difference between
@@ -97,28 +80,13 @@ function formatTwoDigits(num) {
     }
     return "" + num;
 }
-function currentDateAsString() {
-    var currentDate = new Date();
-    return currentDate.getFullYear() + "-" + formatTwoDigits(currentDate.getMonth()) + "-" + formatTwoDigits(currentDate.getDay());
-}
-function getDailyStatPosition() {
-    return "DailyStats:" + currentDateAsString() + ":Notes:" + numOfNotes;
-}
 function incrementRights() {
     rights++;
-    var prevDailyStats = loadDailyStats(getDailyStatPosition());
-    if (prevDailyStats == undefined) {
-        prevDailyStats = new DailyStats(0, 0);
-    }
-    saveDailyStats(getDailyStatPosition(), new DailyStats(prevDailyStats.rights + 1, prevDailyStats.wrongs));
+    incrementDailyRights(numOfNotes);
 }
 function incrementWrongs() {
     wrongs++;
-    var prevDailyStats = loadDailyStats(getDailyStatPosition());
-    if (prevDailyStats == undefined) {
-        prevDailyStats = new DailyStats(0, 0);
-    }
-    saveDailyStats(getDailyStatPosition(), new DailyStats(prevDailyStats.rights, prevDailyStats.wrongs + 1));
+    incrementDailyWrongs(numOfNotes);
 }
 function testModeGuessCallBack(right) {
     if (right) {
@@ -134,14 +102,6 @@ function testModeGuessCallBack(right) {
         incrementWrongs();
     }
     updateStats();
-}
-function calcPercent(numerator, denominator) {
-    if (denominator == 0) {
-        return "N/A";
-    }
-    else {
-        return 100 * numerator / denominator + "%";
-    }
 }
 function enableTestMode() {
     disableFreeMode();
@@ -190,7 +150,7 @@ function removeANote() {
     // new note was not removed
     return false;
 }
-function loadTestModeDailyStats() {
+function loadTestModeSettings() {
     var numberOfTestNotes = loadNumber(SETTING_NUMBER_OF_TESTS_NOTES);
     if (numberOfTestNotes != undefined) {
         numOfNotes = numberOfTestNotes;
@@ -199,4 +159,4 @@ function loadTestModeDailyStats() {
         saveNumber(SETTING_NUMBER_OF_TESTS_NOTES, numOfNotes);
     }
 }
-loadTestModeDailyStats();
+loadTestModeSettings();

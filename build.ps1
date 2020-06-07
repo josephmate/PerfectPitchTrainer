@@ -1,1 +1,1 @@
-tsc --outDir dist\ .\storage.ts .\notes.ts .\guitar.ts .\piano.ts .\game.ts .\freeMode.ts .\testMode.ts
+tsc --outDir dist\ .\utils.ts .\storage.ts .\notes.ts .\stats.ts .\guitar.ts .\piano.ts .\game.ts .\freeMode.ts .\testMode.ts

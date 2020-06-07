@@ -82,13 +82,6 @@ function resetStats() {
     updateStats();
 }
 
-function formatTwoDigits(num: number): string {
-    if(num <= 9) {
-        return "0" + num;
-    }
-    return "" + num;
-}
-
 function incrementRights() {
     rights++;
     incrementDailyRights(numOfNotes);

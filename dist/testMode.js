@@ -74,12 +74,6 @@ function resetStats() {
     wrongs = 0;
     updateStats();
 }
-function formatTwoDigits(num) {
-    if (num <= 9) {
-        return "0" + num;
-    }
-    return "" + num;
-}
 function incrementRights() {
     rights++;
     incrementDailyRights(numOfNotes);

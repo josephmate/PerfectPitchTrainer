@@ -27,9 +27,16 @@ interface LoadedDailyStats {
     [dateStr: string]: NoteDailyStats;
 }
 
+function formatTwoDigits(num: number): string {
+    if(num <= 9) {
+        return "0" + num;
+    }
+    return "" + num;
+}
+
 function currentDateAsString(): string {
     let currentDate = new Date();
-    return currentDate.getFullYear() + "-" + formatTwoDigits(currentDate.getMonth()) + "-" + formatTwoDigits(currentDate.getDay());
+    return currentDate.getFullYear() + "-" + formatTwoDigits(currentDate.getMonth()) + "-" + formatTwoDigits(currentDate.getDate());
 }
 
 function getDailyStatPosition(): string {

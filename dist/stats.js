@@ -23,9 +23,15 @@ var DailyStatsKey = /** @class */ (function () {
     }
     return DailyStatsKey;
 }());
+function formatTwoDigits(num) {
+    if (num <= 9) {
+        return "0" + num;
+    }
+    return "" + num;
+}
 function currentDateAsString() {
     var currentDate = new Date();
-    return currentDate.getFullYear() + "-" + formatTwoDigits(currentDate.getMonth()) + "-" + formatTwoDigits(currentDate.getDay());
+    return currentDate.getFullYear() + "-" + formatTwoDigits(currentDate.getMonth()) + "-" + formatTwoDigits(currentDate.getDate());
 }
 function getDailyStatPosition() {
     return DAILY_STATS_PREFIX + currentDateAsString() + ":Notes:" + numOfNotes;

@@ -1,3 +1,4 @@
+/// <reference path="node_modules/@types/dygraphs/index.d.ts" />
 var DAILY_STATS_PREFIX = "DailyStats:";
 /**
  * String array will record the dates with stats:
@@ -72,19 +73,14 @@ function parseAllDailyStatsFromStorage() {
     }
     return loadedDailyStats;
 }
-function loadAllDailyStats() {
-    var loadedDailyStats = parseAllDailyStatsFromStorage();
-    if (Object.keys(loadedDailyStats).length <= 0) {
-        return;
-    }
-    document.getElementById("history").hidden = false;
+function drawDailyStatsTable(loadedDailyStats) {
     var statsTable = document.getElementById("statsTable");
     // header
     var headerRow = document.createElement("tr");
     var numberOfNotesDesc = document.createElement("td");
     numberOfNotesDesc.innerText = "Number of Notes:";
     headerRow.appendChild(numberOfNotesDesc);
-    for (var numOfNotes = 2; numOfNotes <= 12; numOfNotes++) {
+    for (var numOfNotes = 2; numOfNotes <= notesByRank.length; numOfNotes++) {
         var numberOfNotesHeader = document.createElement("td");
         numberOfNotesHeader.innerText = numOfNotes + "";
         headerRow.appendChild(numberOfNotesHeader);
@@ -98,17 +94,52 @@ function loadAllDailyStats() {
         var dateCell = document.createElement("td");
         dateCell.innerText = date;
         tableRow.appendChild(dateCell);
-        for (var numOfNotes = 2; numOfNotes <= 12; numOfNotes++) {
+        for (var numOfNotes = 2; numOfNotes <= notesByRank.length; numOfNotes++) {
             var noteCell = document.createElement("td");
             var dailyStats = loadedDailyStats[date][numOfNotes];
             if (dailyStats != undefined) {
                 noteCell.innerText = "R: " + dailyStats.rights
                     + ", W: " + dailyStats.wrongs
-                    + ", P: " + calcPercent(dailyStats.rights, dailyStats.rights + dailyStats.wrongs);
+                    + ", P: " + calcPercentString(dailyStats.rights, dailyStats.rights + dailyStats.wrongs);
             }
             tableRow.appendChild(noteCell);
         }
         statsTable.appendChild(tableRow);
     }
+}
+function convertLoadedDailyStatsToCsv(loadedDailyStats) {
+    var result = "Date";
+    for (var numOfNotes = 2; numOfNotes <= notesByRank.length; numOfNotes++) {
+        result += "," + numOfNotes + " Notes";
+    }
+    result += "\n";
+    var dates = Object.keys(loadedDailyStats).sort();
+    // data
+    for (var i = 0; i < dates.length; i++) {
+        var dateStr = dates[i];
+        result += dateStr;
+        for (var numOfNotes = 2; numOfNotes <= notesByRank.length; numOfNotes++) {
+            result += ",";
+            var dailyStats = loadedDailyStats[dateStr][numOfNotes];
+            if (dailyStats != undefined) {
+                result += calcPercent(dailyStats.rights, dailyStats.rights + dailyStats.wrongs);
+            }
+        }
+        result += "\n";
+    }
+    console.info(result);
+    return result;
+}
+function drawDailyStatsDygraph(loadedDailyStats) {
+    new Dygraph(document.getElementById("statsDygraphDiv"), convertLoadedDailyStatsToCsv(loadedDailyStats));
+}
+function loadAllDailyStats() {
+    var loadedDailyStats = parseAllDailyStatsFromStorage();
+    if (Object.keys(loadedDailyStats).length <= 0) {
+        return;
+    }
+    document.getElementById("history").hidden = false;
+    drawDailyStatsTable(loadedDailyStats);
+    drawDailyStatsDygraph(loadedDailyStats);
 }
 loadAllDailyStats();

@@ -73,7 +73,7 @@ function calculateNoteString(): string {
 function updateStats() {
     document.getElementById("rightCount").innerText = rights + "";
     document.getElementById("wrongCount").innerText = wrongs + "";
-    document.getElementById("percent").innerText = calcPercent(rights, rights + wrongs);
+    document.getElementById("percent").innerText = calcPercentString(rights, rights + wrongs);
 }
 
 function resetStats() {
